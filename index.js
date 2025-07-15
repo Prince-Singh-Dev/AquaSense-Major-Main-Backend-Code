@@ -151,6 +151,20 @@ app.post('/supply', async (req, res) => {
   }
 });
 
+// ✅ Frontend GET water level
+app.get('/level', (req, res) => {
+  res.json({ level: getLevel() });
+});
+
+// ✅ Frontend GET motor status
+app.get('/status', (req, res) => {
+  res.json({ status: getStatus() });
+});
+
+// ✅ Frontend GET supply status
+app.get('/supply', (req, res) => {
+  res.json({ available: supplyAvailable });
+});
 
 // ✅ Start server
 const PORT = process.env.PORT || 3000;
