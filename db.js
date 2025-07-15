@@ -2,10 +2,16 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb+srv://DB-USER:Prince-AquaSense-DB@aquasense-db.nqgubdj.mongodb.net/aquasense?retryWrites=true&w=majority&appName=AquaSense-DB', {
+    const mongoURI = process.env.MONGO_URI;
+    if (!mongoURI) {
+      throw new Error("❌ MONGO_URI is not defined in environment variables.");
+    }
+
+    await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
+
     console.log('✅ MongoDB Connected!');
   } catch (err) {
     console.error('❌ MongoDB connection failed:', err.message);
