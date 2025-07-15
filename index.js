@@ -87,9 +87,11 @@ app.post('/status', async (req, res) => {
   console.log("🔧 ESP reports status:", status);
 
   if (status === "ON" || status === "OFF") {
-    setStatus(status); // Memory updated
+    setStatus(status, "ESP"); // ✅ truth comes from ESP
 
-    if (deviceId) await DeviceData.create({ deviceId, status });
+    if (deviceId) {
+      await DeviceData.create({ deviceId, status });
+    }
 
     return res.json({ success: true });
   }
@@ -99,8 +101,8 @@ app.post('/status', async (req, res) => {
 
 // ✅ Frontend or ESP fetches current motor status
 app.get('/status', (req, res) => {
-  const current = getStatus();
-  res.json({ status: current });
+  const { status, source } = getStatus();
+  res.json({ status, source }); // ✅ returns both status and who updated it
 });
 
 // ✅ ESP sends water level
